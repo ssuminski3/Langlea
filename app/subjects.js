@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, ScrollView } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { TouchableOpacity } from 'react-native';
+import { router } from 'expo-router';
 
 export default function App() {
     const local = useLocalSearchParams()
@@ -14,7 +15,7 @@ export default function App() {
                 {
                     subjects.map(s => {
                         return (
-                            <TouchableOpacity className="bg-slate-900 p-3 mt-3 w-full">
+                            <TouchableOpacity className="bg-slate-900 p-3 mt-3 w-full" onPress={() => router.navigate({ pathname: './type', params: { language: lang, subject: s }})}>
                                 <Text className="text-white w-full text-center text-2xl">{s}</Text>
                             </TouchableOpacity>
                         )
