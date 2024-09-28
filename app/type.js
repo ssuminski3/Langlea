@@ -15,7 +15,7 @@ export default function App() {
                 {
                     types.map(t => {
                         return (
-                            <TouchableOpacity className="bg-slate-900 p-10  mt-3" onPress={() => router.navigate({ pathname: './type', params: { language: lang, subject: sub, type: t }})}>
+                            <TouchableOpacity key={t} className="bg-slate-900 p-10  mt-3" onPress={() => router.navigate({ pathname: './learning', params: { language: lang, subject: sub, type: t }})}>
                                 <Text className="text-white w-full text-center text-2xl">{t}</Text>
                             </TouchableOpacity>
                         )
