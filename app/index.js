@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Text, View, ScrollView } from 'react-native';
 import Lang from '../ui/lang';
 import { SimpleGrid } from 'react-native-super-grid';
-
+import { run } from '../firebase.config';
 
 //background: bg-slate-700
 //secondary color bg-slate-900
