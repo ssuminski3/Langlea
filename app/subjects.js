@@ -7,7 +7,7 @@ import { router } from 'expo-router';
 export default function App() {
     const local = useLocalSearchParams()
     const lang  = local.language
-    const subjects = ["Pytanie o drogę", "Wakacje", "Liczby", "Przedstawianie się", "Czas i data", "Zainteresowania i hobby", " Restauracja/Potrawy"]
+    const subjects = ["Asking for direction", "Vacation", "Numbers", "Introducing", "Time and date", "Hobby", "Food"]
     return (
         <View className="bg-slate-700 justify-center flex-1 items-center">
             <Text className="text-white text-3xl m-3 text-center">What subject do you want to learn in {lang}?</Text>

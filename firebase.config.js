@@ -16,5 +16,5 @@ export const vertexAI = getVertexAI(app);
 // Initialize the generative model with a model that supports your use case
 // Gemini 1.5 models are versatile and can be used with all API capabilities
 export const model = getGenerativeModel(vertexAI, { model: "gemini-1.5-flash" });
-
+export const modelTranslate = getGenerativeModel(vertexAI, {model: "gemini-1.5-flash"})
 

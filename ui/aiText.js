@@ -1,62 +1,36 @@
 import React, { useState } from 'react';
 import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { translate } from '../aitranslator/gemini';
 
 export default function AIText(props) {
-    const text = props.text.split(" ")
-    const newWord = ["OKL", "IUO", "POK", "UYT"]
-    const [pressedIndices, setPressedIndices] = useState([]);
-    const [style, setStyle] = useState("")
-    //It's array with length of the text if element on index is true a word under this index is clicked
-    const [wordStates, setWordStates] = useState(text.map(() => false))
+  const text = props.text.split(" ");
+  const [selectedWords, setSelectedWords] = useState({});
 
-    const clickedWord = (index) => {
-        if (pressedIndices.includes(index)) {
-            setPressedIndices(pressedIndices.filter(i => i !== index))
-            setWordStates(wordStates.map((state, i) => i === index ? !state : state))
-        }
-        else {
-            setPressedIndices([...pressedIndices, index])
-            setWordStates(wordStates.map((state, i) => i === index ? !state : state))
-        }
+  const clickedWord = async (index) => {
+    const word = text[index];
+    if (selectedWords[word]) {
+      delete selectedWords[word];
+    } else {
+      const translatedWord = await translate(word)
+      selectedWords[word] = translatedWord;
     }
-    //getphrases to translate
-    const getPressedWord = () => {
-        const pressedWord = []
-        let tempWord = ""
-        let tempIndices = []
+    setSelectedWords({ ...selectedWords });
+  };
 
-        for (let i = 0; i < text.length; i++) {
-            if (pressedIndices.includes(i)) {
-                tempWord += wordStates[i] ? `*${text[i]}*` : text[i]
-                tempWord += " "
-                tempIndices.push(i)
-            }
-            else {
-                if (tempWord.trim() !== "") {
-                    pressedWord.push({ word: tempWord.trim(), indices: tempIndices })
-                    tempWord = ""
-                    tempIndices = []
-                }
-            }
-        }
-
-        if (tempWord.trim() !== "") {
-            pressedWord.push({ word: tempWord.trim(), indices: tempIndices })
-        }
-
-        return pressedWord
-    }
-
-    return (
-        <View className="bg-slate-900 justify-center p-1 m-2 items-center">
-            <Text className="m-3">
-                <Text className="text-white text-2xl pr-10 justify-center items-center">AI: </Text> 
-                {text.map((word, index) => (
-                    <TouchableOpacity key={index} onPress={(e) => clickedWord(index)}>
-                        <Text className={`text-white text-3xl ${pressedIndices.includes(index) ? "bg-green-600 ml-1 mr-1" : ""}`}>{wordStates[index] ? newWord[index] : word} </Text>                    
-                    </TouchableOpacity>
-                ))}
+  return (
+    <View className="bg-slate-900 justify-center p-1 m-2 items-center">
+      <Text className="m-3">
+        <Text className="text-white text-2xl pr-10 justify-center items-center">AI: </Text>
+        {text.map((word, index) => (
+          <TouchableOpacity key={index} onPress={async(e) => await clickedWord(index)}>
+            <Text
+              className={`text-white text-3xl ml-1 mr-1 ${selectedWords[word] ? "bg-green-600 text-xl" : ""}`}
+            >
+              {selectedWords[word] || word}
             </Text>
-        </View>
-    );
+          </TouchableOpacity>
+        ))}
+      </Text>
+    </View>
+  );
 }
